@@ -23,30 +23,35 @@ document.querySelector('.again').addEventListener('click', function () {
 
 });
 
+const finishWindow = function (color, message) {
+    document.querySelector('body').style.backgroundColor = color;//#ff0000
+
+    document.querySelector('.number').style.width = '15rem';
+
+    document.querySelector('.message').textContent = message; //'😓 Lost game! Maybe you want to try again?';
+}
+
 document.querySelector('.check').addEventListener('click', function () {
     const guess = Number(document.querySelector('.guess').value);
 
-    if (score > 0) {
+    if (score > 1) {
         if (!guess) //guess is 0
         {
             document.querySelector('.message').textContent = 'No number !🙄 ';
         }
         else if (guess === secretNumber) {
-            document.querySelector('body').style.backgroundColor = '#60b347';
-
-            document.querySelector('.number').style.width = '30rem';
 
             document.querySelector('.number').textContent = secretNumber;
 
             if (score > highScore) {
+
+                finishWindow('#60b347', 'Congratulations! Correct number! 😱 New High Score!');
+
                 highScore = score;
-
-                document.querySelector('.message').textContent = 'Congratulations! Correct number! 😱 New High Score!'
-
                 document.querySelector('.highscore').textContent = String(highScore);
             }
             else
-                document.querySelector('.message').textContent = 'Congratulations! Correct number! 😱';
+                finishWindow('#60b347', 'Congratulations! Correct number! 😱')
         }
         else {
 
@@ -60,11 +65,12 @@ document.querySelector('.check').addEventListener('click', function () {
         }
     }
     else {
-        document.querySelector('body').style.backgroundColor = '#ff0000';
 
-        document.querySelector('.number').style.width = '15rem';
+        finishWindow('#ff0000', '😓 Lost game! Maybe you want to try again?');
 
-        document.querySelector('.message').textContent = '😓 Lost game! Maybe you want to try again?';
+        if (score == 1)
+            score--;
+        document.querySelector('.score').textContent = String(score);
     }
 });
 
