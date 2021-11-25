@@ -34,8 +34,45 @@ const restaurant = {
   orderDelivery: function ({ starterIndex = 1, mainIndex = 0, time = '20:00', adress }) {
     console.log(`Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`);
   },
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(`Here is your pasta with ${ing1}, ${ing2}, ${ing3} .`);
+  },
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient);
+    console.log(otherIngredients);
+  }
 };
 
+//SPREAD, because on RIGHT side of =
+const arr = [1, 2, ...[3, 4]];
+
+//REST, because on LEFT side of =
+const [a, b, ...others] = [1, 2, 3, 4, 5];
+console.log(a, b, others);
+
+const [pizza, , risotto, ...otherFood] = [...restaurant.mainMenu, ...restaurant.starterMenu]
+
+//Objects
+const { sat, ...weekDays } = restaurant.openingHours;
+console.log(weekDays);
+
+//functions parameters
+
+const add = function (...numbers) {
+  let s = 0;
+  for (let i = 0; i < numbers.length; i++)
+    s += numbers[i];
+  return s;
+}
+console.log(add(2, 3));
+console.log(add(2, 3, 4, 5, 5));
+console.log(add(2, 3, 4, 5, 6, 8, 9));
+const x = [1, 2, 3];
+console.log(add(...x));
+
+restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
+
+/*
 restaurant.orderDelivery({
   time: '23:30',
   adress: 'Via del Sole, 21',
@@ -43,7 +80,48 @@ restaurant.orderDelivery({
   // starterIndex: 2,
 });
 
+//using spread first time
+const arr = [7, 8, 9];
+const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+console.log(badNewArr);
 
+const newArr = [1, 2, ...arr];
+console.log(newArr);
+
+console.log(...newArr);
+
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+console.log(newMenu);
+
+
+//copy array
+const mainMenuCopy = [...restaurant.mainMenu];
+
+//join 2 arrays or more together
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+console.log(menu);
+
+//spread in string
+const str = 'Jonas';
+const letters = [...str, ' ', 'S.'];
+console.log(letters);
+
+//passing arg to functions with spread
+//const ingredients = [prompt('Let\'s make pasta ! Ingredient 1?'), prompt('Ingredient 2 ?'), prompt('Ingredient 3 ?')];
+//console.log(ingredients);
+
+//restaurant.orderPasta(...ingredients);
+
+//objects
+const newRestaurant = { foundedIn: 1998, ...restaurant, founder: 'Giusepe' };
+console.log(newRestaurant);
+
+//shallow copy
+const restaurantCopy = { ...restaurant };
+restaurantCopy.name = 'Ristorante Roma';
+console.log(restaurantCopy.name);
+console.log(restaurant.name);
+/*
 //destructuring objects using same name
 const { name, openingHours, categories } = restaurant;
 console.log(name, openingHours, categories);
