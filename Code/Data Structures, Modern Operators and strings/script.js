@@ -1,5 +1,158 @@
 'use strict';
 
+const weekDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+const openingHours = {
+  //es6 enchance   
+  [weekDays[4]]: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0,
+    close: 24,
+  },
+};
+
+
+const restaurant = {
+  name: 'Classico Italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+
+  //es6 enchance literal
+  openingHours,
+
+  //es6 enchance function
+  order(starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+
+  //es6
+
+  orderDelivery({ starterIndex = 1, mainIndex = 0, time = '20:00', adress }) {
+    console.log(`Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`);
+  },
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(`Here is your pasta with ${ing1}, ${ing2}, ${ing3} .`);
+  },
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient);
+    console.log(otherIngredients);
+  }
+};
+
+
+
+
+
+/*
+// for-of looping
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+for (const item of menu)
+  console.log(item);
+
+for (const [i, el] of menu.entries()) {
+  console.log(`${i + 1} : ${el}`);
+
+  console.log([...menu.entries()]);
+}
+
+/*
+//coding challenge
+
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski',
+    'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+//tassk 1
+const [players1, players2] = game.players;
+console.log(players1);
+console.log(players2);
+
+//task 2
+const [gk, ...fieldPlayers] = players1;
+console.log(gk);
+console.log(fieldPlayers);
+
+//task 3
+const allPlayers = [...players1, ...players2];
+console.log(allPlayers.length);
+
+//task 4
+const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+console.log(players1Final);
+
+//task 5
+const { team1, x, team2 } = game.odds;
+console.log(team1, team2, x);
+
+//task 6
+const printGoals = function (...playerNames) {
+  let storedPlayers = [];
+  for (let i = 0; i < playerNames.length; i++)
+    if (!storedPlayers.includes(playerNames[i])) {
+      storedPlayers.push(playerNames[i]);
+      let goals = 1;
+      for (let j = i + 1; j < playerNames.length; j++)
+        if (playerNames[i] == playerNames[j])
+          goals++;
+      console.log(`${ playerNames[i] } scored ${ goals } goals!`);
+    }
+  console.log(`${ playerNames.length } goals scored in total!`);
+}
+
+printGoals(...game.scored);
+
+//task 7
+team1 < team2 && console.log('Team 1 is more likely to win');
+team1 > team2 && console.log('Team 2 is more likely to win');
+
+/*
 // Data needed for a later exercise
 const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
@@ -32,10 +185,10 @@ const restaurant = {
   },
 
   orderDelivery: function ({ starterIndex = 1, mainIndex = 0, time = '20:00', adress }) {
-    console.log(`Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`);
+    console.log(`Order recieved! ${ this.starterMenu[starterIndex] } and ${ this.mainMenu[mainIndex] } will be delivered to ${ adress } at ${ time } `);
   },
   orderPasta: function (ing1, ing2, ing3) {
-    console.log(`Here is your pasta with ${ing1}, ${ing2}, ${ing3} .`);
+    console.log(`Here is your pasta with ${ ing1 }, ${ ing2 }, ${ ing3 } .`);
   },
   orderPizza: function (mainIngredient, ...otherIngredients) {
     console.log(mainIngredient);
