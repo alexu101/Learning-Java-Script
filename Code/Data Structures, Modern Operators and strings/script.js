@@ -1,5 +1,69 @@
 'use strict';
 
+//More exercises with strings
+
+const flights =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+console.log(flights.split('+'));
+
+for (const flight of flights.split('+')) {
+  const [type, from, to, time] = flight.split(';');
+  const output = `${type.startsWith('_Delayed') ? '🔴' : ''} ${type.replaceAll('_', ' ')
+    } from ${from.slice(0, 3).toUpperCase()} to ${to.slice(0, 3).toUpperCase()} (${time.replace(':', 'h')})`.padStart(60);
+  console.log(output);
+}
+
+/*
+// Coding Challange 4
+const toCamel = function (bigWord) {
+  const words = bigWord.split('\n');
+  let i = 1, maxLen = 0;
+
+  for (const x of words) {
+    if (x.length > maxLen)
+      maxLen = x.length;
+  }
+  for (const word of words) {
+    const [word1, word2] = word.toLowerCase().split('_');
+    let cameledWord = word1 + (word2[0]).toUpperCase() + word2.slice(1);
+
+    cameledWord = cameledWord.padEnd(maxLen + 5, ' ');
+    console.log(cameledWord, '✅'.repeat(i));
+    i++;
+  }
+}
+
+
+toCamel('underscore_case\nfirst_name\nSome_Variable\ncalculate_AGE\ndelayed_departure');
+
+const textArea = document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+document.querySelector('button').addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+
+  const words = text.split('\n');
+  let i = 1, maxLen = 0;
+
+  for (const x of words) {
+    if (x.length > maxLen)
+      maxLen = x.length;
+  }
+  for (const word of words) {
+    const [word1, word2] = word.toLowerCase().trim().split('_');
+    let cameledWord = word1 + (word2[0]).toUpperCase() + word2.slice(1);
+
+    cameledWord = cameledWord.padEnd(maxLen + 5, ' ');
+    console.log(cameledWord, '✅'.repeat(i));
+    i++;
+  }
+})
+
+
+
+
+/*
 //STRINGS
 
 const airline = 'TAP Air Portugal';
@@ -71,6 +135,54 @@ checkBaggage('I have a laptop, some Food and a pocket Knife');
 checkBaggage('socks and Camera');
 checkBaggage('Got some snacks and a gun for protection');
 
+//split and join
+console.log('a+very+nice+string'.split('+'));
+
+const [firstName, lastName] = 'Alex Tanase'.split(' ');
+console.log(firstName, lastName);
+
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName);
+
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+  for (const word of names) {
+    //namesUpper.push(word[0].toUpperCase() + word.slice(1));
+    //
+    namesUpper.push(word.replace(word[0], word[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+}
+const passangers = 'jessica ann smith davis';
+capitalizeName(passangers);
+
+//Padding
+const message = 'Go to gate 23';
+console.log(message.padStart(25, '+'));
+console.log(message.padEnd(25, 'alex '));
+
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  console.log(last.padStart(str.length, '*'));
+}
+
+maskCreditCard(123456789);
+maskCreditCard('987654321');
+
+//Repeat
+const message2 = 'Bad weather...All Departures Delayed...';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${ n } planes in line ${ '✈'.repeat(n) } `);
+
+}
+planesInLine(10);
+planesInLine(3);
+
 /*
 // Coding Challange no 3
 const gameEvents = new Map([
@@ -114,7 +226,7 @@ for (let [key, event] of gameEvents) {
     half = 'FIRST';
   else half = 'SECOND';
 
-  console.log(`[${half} HALF]${key}: ${event}`);
+  console.log(`[${ half } HALF]${ key }: ${ event } `);
 }
 
 
@@ -155,10 +267,10 @@ const restaurant = {
   //es6
 
   orderDelivery({ starterIndex = 1, mainIndex = 0, time = '20:00', adress }) {
-    console.log(`Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`);
+    console.log(`Order recieved! ${ this.starterMenu[starterIndex] } and ${ this.mainMenu[mainIndex] } will be delivered to ${ adress } at ${ time } `);
   },
   orderPasta: function (ing1, ing2, ing3) {
-    console.log(`Here is your pasta with ${ing1}, ${ing2}, ${ing3} .`);
+    console.log(`Here is your pasta with ${ ing1 }, ${ ing2 }, ${ ing3 } .`);
   },
   orderPizza: function (mainIngredient, ...otherIngredients) {
     console.log(mainIngredient);
@@ -213,7 +325,7 @@ console.log(hoursMap);
 
 console.log(question.get('question'));
 for (const [key, value] of question) {
-  if (typeof (key) == 'number') console.log(`Answer ${key} : ${value}`);
+  if (typeof (key) == 'number') console.log(`Answer ${ key } : ${ value } `);
 }
 const answer = Number(prompt('Your answer'));
 
@@ -294,7 +406,7 @@ const game = {
 let goalNo = 0;
 for (const name of game.scored) {
   goalNo++;
-  console.log(`Goal ${goalNo}: ${name}`);
+  console.log(`Goal ${ goalNo }: ${ name } `);
 }
 
 //task 2
@@ -305,9 +417,9 @@ console.log(avg.toFixed(2));
 
 //task3
 for (const [oddName, value] of Object.entries(game.odds)) {
-  oddName === 'team1' && console.log(`Odd of ${game.team1}: ${value}`);
-  oddName === 'x' && console.log(`Odd of draw : ${value}`);
-  oddName === 'team2' && console.log(`Odd of ${game.team2}: ${value}`);
+  oddName === 'team1' && console.log(`Odd of ${ game.team1 }: ${ value } `);
+  oddName === 'x' && console.log(`Odd of draw: ${ value } `);
+  oddName === 'team2' && console.log(`Odd of ${ game.team2 }: ${ value } `);
 }
 
 //task4
@@ -356,10 +468,10 @@ const restaurant = {
   //es6
 
   orderDelivery({ starterIndex = 1, mainIndex = 0, time = '20:00', adress }) {
-    console.log(`Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`);
+    console.log(`Order recieved! ${ this.starterMenu[starterIndex] } and ${ this.mainMenu[mainIndex] } will be delivered to ${ adress } at ${ time } `);
   },
   orderPasta: function (ing1, ing2, ing3) {
-    console.log(`Here is your pasta with ${ing1}, ${ing2}, ${ing3} .`);
+    console.log(`Here is your pasta with ${ ing1 }, ${ ing2 }, ${ ing3 } .`);
   },
   orderPizza: function (mainIngredient, ...otherIngredients) {
     console.log(mainIngredient);
@@ -369,10 +481,10 @@ const restaurant = {
 
 //Property Names
 const properties = Object.keys(openingHours);
-let openStr = `We are open on ${properties.length} days: `;
+let openStr = `We are open on ${ properties.length } days: `;
 
 for (const day of Object.keys(openingHours)) {
-  openStr += `${day}, `;
+  openStr += `${ day }, `;
 }
 
 console.log(openStr);
@@ -386,7 +498,7 @@ const entries = Object.entries(openingHours);
 //console.log(entries);
 
 for (const [key, { open, close }] of entries) {
-  console.log(`On ${key} we open at ${open} and close at ${close}`);
+  console.log(`On ${ key } we open at ${ open } and close at ${ close } `);
 }
 
 /*
@@ -404,7 +516,7 @@ const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 for (const day of days) {
   console.log(day);
   const open = restaurant.openingHours[day]?.open ?? 0;
-  console.log(`On ${day} we open at ${open}`);
+  console.log(`On ${ day } we open at ${ open } `);
 }
 
 //Methods
@@ -428,7 +540,7 @@ for (const item of menu)
   console.log(item);
 
 for (const [i, el] of menu.entries()) {
-  console.log(`${i + 1} : ${el}`);
+  console.log(`${ i + 1 } : ${ el } `);
 
   console.log([...menu.entries()]);
 }
