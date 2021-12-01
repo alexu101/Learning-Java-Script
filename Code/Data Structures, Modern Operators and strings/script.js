@@ -1,5 +1,124 @@
 'use strict';
 
+//STRINGS
+
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+console.log(plane[0]);
+console.log('B737'[0]);
+
+console.log(airline.length);
+console.log('B737'.length);
+
+console.log(airline.indexOf('or'));
+
+console.log(airline.slice(4));
+
+console.log(airline.slice(0, airline.indexOf(' ')));
+console.log(airline.slice(airline.indexOf(' ') + 1));
+
+console.log(airline.slice(1, -1));
+
+const checkMiddleSeat = function (seat) {
+  //B and E are middle seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E')
+    console.log('Yo got a middle seat');
+  else console.log('You got lucky');
+}
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+//Fix capitalization
+console.log(airline.toLowerCase());
+console.log(airline.toUpperCase());
+console.log(airline.slice(0, 1).toUpperCase() + airline.slice(1).toLowerCase());
+
+//comparing emails
+const email = 'abc@x.com';
+const loginEmail = 'abC@x.Com \n';
+
+const lowerEmail = loginEmail.toLowerCase();
+const trimmedEmail = lowerEmail.trim();
+console.log(email === trimmedEmail);
+
+//Replacing
+const priceGB = '288,97$';
+const priceUS = priceGB.replace('$', '&').replace(',', '.');
+console.log(priceUS);
+
+const announcement = 'All passangers com to barding door 23. Boarding door 23!';
+
+console.log(announcement.replaceAll('door', 'gate'));
+
+//booleans methods
+const plane1 = 'A320neo';
+console.log(plane1.includes('A320'));
+
+//practice ex
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();//always put in lowerstring
+  if (baggage.includes('knife') || baggage.includes('gun'))
+    console.log('You are NOT allowed on board !');
+  else
+    console.log('Welcome aboard!');
+
+}
+checkBaggage('I have a laptop, some Food and a pocket Knife');
+checkBaggage('socks and Camera');
+checkBaggage('Got some snacks and a gun for protection');
+
+/*
+// Coding Challange no 3
+const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '� Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '� Substitution'],
+  [64, '� Yellow card'],
+  [69, '� Red card'],
+  [70, '� Substitution'],
+  [72, '� Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '� Yellow card'],
+]);
+
+/*
+//task 1
+const events1 = [...new Set(gameEvents.values())];
+//sau
+let events = new Set();
+for (let [, event] of gameEvents) {
+  events.add(event);
+}
+console.log(events);
+
+//task 2
+console.log(gameEvents);
+for (let [key, event] of gameEvents) {
+  if (key == 64 && event == '� Yellow card')
+    gameEvents.delete(key);
+}
+console.log(gameEvents);
+
+//task 3 fara sens
+
+//task 4
+for (let [key, event] of gameEvents) {
+  let half;
+  if (key < 45)
+    half = 'FIRST';
+  else half = 'SECOND';
+
+  console.log(`[${half} HALF]${key}: ${event}`);
+}
+
+
+/*
 const weekDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 const openingHours = {
   //es6 enchance
