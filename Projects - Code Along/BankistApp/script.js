@@ -61,16 +61,33 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// function that recieve an array of movements and work with that data
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';//make sure the container of movements is empty
+
+  movements.forEach(function (mov, index) {
+
+    const type = mov > 0 ? 'deposit' : 'withdrawal'; //the type of movement
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type 
+      movements__type--${type}">${index + 1} ${type}</div>
+      <div class="movements__date">3 days ago</div>
+      <div class="movements__value">${mov}€</div>
+  </div>`;//the string with the html element we want to add into movements
+    containerMovements.insertAdjacentHTML('afterbegin', html)//inserting a movement into the movements.
+  });
+};
+
+displayMovements(account1.movements);
+
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
 /*
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -108,7 +125,7 @@ console.log(letters);
 console.log([...arr, ...arr2]);
 
 //JOIN
-console.log(letters.join(' - '));*/
+console.log(letters.join(' - '));
 
 
 //LOOPING ARRAYS forEACH
@@ -131,3 +148,67 @@ movements.forEach(function (movement, i, arr) {
   else
     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
 });
+
+
+const currencies = new Map([
+  ['USD', 'United States dollar',],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies.forEach(function (value, key, map) {
+  console.log(` ${value}`);
+})
+
+//Set
+const currenciesUnique = new Set(['usd', 'gbp', 'usd', 'euro', 'lei', 'lei']);
+
+currenciesUnique.forEach(function (value, _, map) {
+  console.log(` ${value}`);
+})
+
+
+
+//CODING CHALLENGE 1
+
+const checkDogs = function (dogsJulia, dogsKate) {
+
+  //task 1
+  const copyDogsJulia = dogsJulia;//create a shallow copy to not alter the passed argument
+  copyDogsJulia.splice(0, 1);//remove the first cat
+  copyDogsJulia.splice(-2);//the last two cats
+
+  //task 2
+  const bothArrays = dogsJulia.concat(dogsKate);//creating a new array with both dogs arrays
+
+  //task 3
+  bothArrays.forEach(function (dog, i) {
+    if (dog >= 3)
+      console.log(`Dog number ${i + 1} is an adult, and is ${dog} years old .`);
+    else
+      console.log(`Dog number ${i + 1} is still a puppy 🐶 .`);
+  })
+
+}
+
+//task 4
+checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);*/
+
+//MAP METHOD
+const eurToUsd = 1.1;
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+
+const movementsUsd = movements.map((mov) => mov * eurToUsd);
+
+const movementsUsdFor = [];
+for (const mov of movements)
+  movementsUsdFor.push(mov * eurToUsd);
+
+
+const movementsDescriptions = movements.map((mov, i, arr) =>
+
+  `Movement ${i + 1}: You ${(mov > 0) ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
+);
+
+console.log(movementsDescriptions);
