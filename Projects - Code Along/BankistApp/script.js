@@ -81,6 +81,51 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const calcPrintBalance = function (movements) {
+  const balance = movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `${balance} EUR`;
+}
+calcPrintBalance(account1.movements);
+
+const calcDisplyaSummary = function (movements) {
+
+  //INCOMES
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  //WITHDRAWALS
+  const withdrawals = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + Math.abs(mov), 0);
+  labelSumOut.textContent = `${withdrawals}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => ((mov * 0.012)) > 1 ? (acc + mov * 0.012) : acc, 0);
+  labelSumInterest.textContent = `${interest}€`
+};
+
+calcDisplyaSummary(account1.movements);
+
+//crearea numelor de utilizatori
+const createUsernames = function (accs) {//primeste argument toate contruile
+  accs.forEach(function (acc) {//pentru fiecare cont
+    acc.username = acc.owner//cream o noua proprietate username pentru obiectele account
+      .toLocaleLowerCase()//formate din initialele numelui
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+console.log(accounts);
+
+
+
+
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -135,18 +180,18 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //for of loop
 for (const [i, movement] of movements.entries()) {
   if (movement > 0)
-    console.log(`Movement ${i + 1}: You deposited ${movement}`);
+    console.log(`Movement ${ i + 1 }: You deposited ${ movement } `);
   else {
-    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
+    console.log(`Movement ${ i + 1 }: You withdrew ${ Math.abs(movement) } `);
   }
 }
 
 //forEach loop
 movements.forEach(function (movement, i, arr) {
   if (movement > 0)
-    console.log(`Movement ${i + 1}: You deposited ${movement}`);
+    console.log(`Movement ${ i + 1 }: You deposited ${ movement } `);
   else
-    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
+    console.log(`Movement ${ i + 1 }: You withdrew ${ Math.abs(movement) } `);
 });
 
 
@@ -157,14 +202,14 @@ const currencies = new Map([
 ]);
 
 currencies.forEach(function (value, key, map) {
-  console.log(` ${value}`);
+  console.log(` ${ value } `);
 })
 
 //Set
 const currenciesUnique = new Set(['usd', 'gbp', 'usd', 'euro', 'lei', 'lei']);
 
 currenciesUnique.forEach(function (value, _, map) {
-  console.log(` ${value}`);
+  console.log(` ${ value } `);
 })
 
 
@@ -184,15 +229,15 @@ const checkDogs = function (dogsJulia, dogsKate) {
   //task 3
   bothArrays.forEach(function (dog, i) {
     if (dog >= 3)
-      console.log(`Dog number ${i + 1} is an adult, and is ${dog} years old .`);
+      console.log(`Dog number ${ i + 1 } is an adult, and is ${ dog } years old.`);
     else
-      console.log(`Dog number ${i + 1} is still a puppy 🐶 .`);
+      console.log(`Dog number ${ i + 1 } is still a puppy 🐶 .`);
   })
 
 }
 
 //task 4
-checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);*/
+checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
 //MAP METHOD
 const eurToUsd = 1.1;
@@ -208,7 +253,89 @@ for (const mov of movements)
 
 const movementsDescriptions = movements.map((mov, i, arr) =>
 
-  `Movement ${i + 1}: You ${(mov > 0) ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
+  `Movement ${ i + 1 }: You ${ (mov > 0) ? 'deposited' : 'withdrew' } ${ Math.abs(mov) } `
 );
 
 console.log(movementsDescriptions);
+
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(deposits);
+
+
+const withdrawals = movements.filter((mov) => (mov < 0));
+console.log(withdrawals);
+
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+console.log(movements);
+
+//acumulator is like a snowball
+const balance = movements.reduce((acumulator, curr, i, arr) => acumulator + curr, 0);
+console.log(balance);
+
+//maximum value
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const maxVal = movements.reduce(function (acc, curr) {
+  console.log(acc);
+  if (curr > acc)
+    return curr;
+  else
+    return acc;
+}, movements[0]);
+
+//console.log(maxVal);
+
+//CODING CHALLENGE 2
+//task 1
+
+const calcAverageHumanAge = function (ages) {
+
+  console.log(ages);
+
+  //task 1'
+  const humanYears = ages.map(age => age <= 2 ? 2 * age : 16 + age * 4);
+  console.log(`Dog ages in human ages: ${ humanYears } `);
+
+  //task 1''
+  const adultDogs = humanYears.filter(function (age) {
+    return age >= 18;
+  })
+  console.log(`Dogs that are at least 18 human years ${ adultDogs } `);
+
+  //task 1'''
+  const avgAge = adultDogs.reduce(function (acc, age) {
+    return acc + age;
+  }, 0) / adultDogs.length;
+  console.log(avgAge);
+
+};
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+
+//chaining
+const eurToUsd = 1.1;
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const totalDepositsUsd = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+
+
+//CODING CHALLENGE 3
+//task 1
+
+const calcAverageHumanAge = function (ages) {
+
+  const avgAge = ages.map(age => age <= 2 ? 2 * age : 16 + age * 4).filter((age) => age > 18
+  ).reduce((acc, age, _, arr) => acc + age / arr.length
+    , 0)
+  console.log(avgAge);
+
+};
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+*/
