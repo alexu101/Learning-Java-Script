@@ -123,7 +123,18 @@ const createUsernames = function (accs) {//primeste argument toate contruile
 createUsernames(accounts);
 console.log(accounts);
 
+//Event listeners
+let currentAccount;
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();//prevent form from submitting 
 
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    console.log('LOGIN');
+  }
+})
 
 
 
@@ -338,4 +349,20 @@ const calcAverageHumanAge = function (ages) {
 };
 
 calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+
+
+//FIND method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(firstWithdrawal);
+
+const firstWithdrawal1 = function (movements) {
+  for (const mov of movements)
+    if (mov < 0)
+      return mov;
+};
+console.log(firstWithdrawal1(movements));
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
 */
