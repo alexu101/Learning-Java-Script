@@ -79,35 +79,35 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
 
-const calcPrintBalance = function (movements) {
-  const balance = movements.reduce((acc, curr) => acc + curr, 0);
-  labelBalance.textContent = `${balance} EUR`;
-}
-calcPrintBalance(account1.movements);
 
-const calcDisplyaSummary = function (movements) {
+const calcPrintBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `${acc.balance} EUR`;
+};
+
+
+const calcDisplyaSummary = function (account) {
 
   //INCOMES
-  const incomes = movements
+  const incomes = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
 
   //WITHDRAWALS
-  const withdrawals = movements
+  const withdrawals = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + Math.abs(mov), 0);
   labelSumOut.textContent = `${withdrawals}€`;
 
-  const interest = movements
+  const interest = account.movements
     .filter(mov => mov > 0)
-    .reduce((acc, mov) => ((mov * 0.012)) > 1 ? (acc + mov * 0.012) : acc, 0);
+    .reduce((acc, mov) => ((mov * 0.012)) > 1 ? (acc + mov * account.interestRate) : acc, 0);
   labelSumInterest.textContent = `${interest}€`
 };
 
-calcDisplyaSummary(account1.movements);
+calcDisplyaSummary(account1);
 
 //crearea numelor de utilizatori
 const createUsernames = function (accs) {//primeste argument toate contruile
@@ -131,10 +131,87 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
   console.log(currentAccount);
 
+
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    console.log('LOGIN');
+
+    //Display UI and message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]} ! 😁`;
+    containerApp.style.opacity = 100;
+    inputLoginPin.blur();
+
+    //updateUI
+    updateUI(currentAccount);
   }
+});
+
+const updateUI = function (acc) {
+  //Display movements
+  displayMovements(acc.movements);
+
+  //Display Balance
+  calcPrintBalance(acc);
+
+  //Display Summary
+  calcDisplyaSummary(acc);
+
+  //emptying login fields
+  inputLoginUsername.value = inputLoginPin.value = ''
+};
+
+//transfers
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const recieverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+  console.log(amount.recieverAcc);
+
+  if (amount > 0 && currentAccount.balance >= amount && recieverAcc && recieverAcc?.username !== currentAccount.username) {
+    //doing the transfer
+    currentAccount.movements.push(-amount);
+    recieverAcc.movements.push(amount);
+
+    //updateUI
+    updateUI(currentAccount);
+  }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    //Add the movement
+    currentAccount.movements.push(amount);
+
+    //update the ui
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+
 })
+
+btnClose.addEventListener('click', function (e) {
+
+  console.log('ok');
+  e.preventDefault();
+
+  if (currentAccount.pin === Number(inputClosePin.value) && currentAccount.username === inputCloseUsername.value) {
+
+    const index = accounts.findIndex(acc => acc.username === currentAccount.username);
+
+    //delete accounts
+    accounts.splice(index, 1);//mutates the array itself
+
+    //hide ui
+    containerApp.style.opacity = 0;
+
+  }
+
+  inputCloseUsername.value = inputClosePin.value = '';
+
+  labelWelcome.textContent = 'Log in to get started';
+
+});
 
 
 
@@ -366,3 +443,43 @@ console.log(firstWithdrawal1(movements));
 const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 console.log(account);
 */
+
+//some and every
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+console.log(movements);
+
+//equality
+console.log(movements.includes(-130));
+
+//sum
+//conditions
+const anyDeposits = movements.some(mov => mov > 0)
+console.log(anyDeposits);
+
+//every
+console.log(movements.every(mov => mov > 0));
+console.log(account4.movements.every(mov => mov > 0));
+
+//Separate callback
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit));
+console.log(movements.every(deposit));
+console.log(movements.filter(deposit));
+
+//flat and flatMap
+
+const arr = [1, 2, 3, 4]
+console.log(arr.flat());
+
+const arrDeep = [[1, 2], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat());
+console.log(arrDeep.flat(1));
+console.log(arrDeep.flat(2));
+
+const accountMovements = accounts.map(acc => acc.movements);
+console.log(accountMovements);
+const allMovements = accountMovements.flat();
+console.log(allMovements);
+const overlBalance = allMovements.reduce((acc, mov) => acc + mov, 0);
+console.log(overlBalance);
+
