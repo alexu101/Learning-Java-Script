@@ -62,10 +62,12 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // function that recieve an array of movements and work with that data
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';//make sure the container of movements is empty
 
-  movements.forEach(function (mov, index) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, index) {
 
     const type = mov > 0 ? 'deposit' : 'withdrawal'; //the type of movement
     const html = `
@@ -213,6 +215,12 @@ btnClose.addEventListener('click', function (e) {
 
 });
 
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+})
 
 
 /////////////////////////////////////////////////
@@ -482,4 +490,18 @@ const allMovements = accountMovements.flat();
 console.log(allMovements);
 const overlBalance = allMovements.reduce((acc, mov) => acc + mov, 0);
 console.log(overlBalance);
+
+
+//Sort method
+const owners = ['Jonas', 'Martha', 'Gica', 'Mihai'];
+console.log(owners.sort());
+console.log(owners);
+
+//Numbers
+console.log(movements);
+
+//return < 0 A,B
+//return > 0 B,A
+movements.sort((a, b) => a - b);
+console.log(movements);
 
