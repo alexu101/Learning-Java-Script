@@ -450,7 +450,7 @@ console.log(firstWithdrawal1(movements));
 
 const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 console.log(account);
-*/
+
 
 //some and every
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -505,3 +505,37 @@ console.log(movements);
 movements.sort((a, b) => a - b);
 console.log(movements);
 
+*/
+
+//CREATING ARRAYS
+
+//Until now we know :
+console.log([1, 2, 3, 4, 5, 6, 7]);
+console.log(new Array(1, 2, 3, 4, 5, 7));
+
+//New ways
+const x = new Array(7);//creates a new array with  empty elements
+//x.map(() => 5);
+
+x.fill(5);
+console.log(x);
+
+x.fill(1, 3);
+console.log(x);
+
+x.fill(2, 3, 5);
+console.log(x);
+
+let y = [1, 2, 5, 1, 2, 4, 2, 5, 5, 2, 5, 21];
+y.fill(23, 2, 6);
+console.log(y);
+
+const z = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const w = Array.from({ length: 7 }, (cur, i) => i + 1);
+console.log(w);
+
+const movementsUI = Array.from(document.querySelectorAll('.movements_value'));
+
+console.log(movementsUI.map(el => Number(el.textContent)));
