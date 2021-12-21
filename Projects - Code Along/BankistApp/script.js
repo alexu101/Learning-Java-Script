@@ -505,7 +505,7 @@ console.log(movements);
 movements.sort((a, b) => a - b);
 console.log(movements);
 
-*/
+
 
 //CREATING ARRAYS
 
@@ -539,3 +539,66 @@ console.log(w);
 const movementsUI = Array.from(document.querySelectorAll('.movements_value'));
 
 console.log(movementsUI.map(el => Number(el.textContent)));
+
+
+//PRACTICE ARRAY METHODS
+
+//1.
+const bankDepositSum = accounts.flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((sum, cur) => sum + cur, 0);
+
+console.log(bankDepositSum);
+
+//2. count how many deposits in the bank with at least 1000 dollars
+
+const numDeposits1000 = accounts.flatMap(acc => acc.movements)
+  .reduce((sum, cur) => cur > 1000 ? sum + 1 : sum, 0)
+
+console.log(numDeposits1000);
+
+//3.
+const { deposits, withdrawals } = accounts.flatMap(acc => acc.movements)
+  .filter(mov => mov > 0).reduce((sums, cur) => {
+    // cur > 0 ? sums.deposits += cur : sums.withdrawals += cur;
+    sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+    return sums;
+  }, { deposits: 0, withdrawals: 0 });
+
+console.log(deposits, withdrawals);
+
+//4.
+const convertTitleCase = function (title) {
+  const exceptions = ['a', 'an', 'or', 'but', 'the', 'in'];
+
+  const titleCase = title.toLocaleLowerCase().split(' ')
+    .map(word => exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)).join(' ');
+  return titleCase;
+
+}
+console.log(convertTitleCase('this is a long title bUt NOT to long'));
+*/
+
+//CODING CHALLENGE 4
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+//task 1
+dogs.forEach(function (dog) {
+  dog.recFoodPortion = `${((dog.weight ** 0.75 * 28) / 1000).toFixed(2)} kgs`;
+})
+console.log(dogs);
+
+//task2
+const sarahsDog = dogs[dogs.findIndex((dog) => dog.owners.includes('Sarah'))];
+console.log(sarahsDog
+  .curFood / 1000 > sarahsDog.recFoodPortion ? `eating too much` : `eating too little`);
+
+//task 3
+const chubbyDogsOwners = dogs.
+  map((dog => dog.curFood / 1000 > dog.recFoodPortion ? `${dog.owners.join(' and ')} eating too much` : `${dog.owners.join(' and ')} eating too little \n`));
+console.log(...chubbyDogsOwners);
+
