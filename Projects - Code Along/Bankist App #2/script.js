@@ -286,3 +286,19 @@ console.log(Math.floor(23.9));
 
 //rounding decimals
 console.log(+(2.7).toFixed(2));
+
+//reminder operator
+console.log(5 % 2);
+
+//coloring every second movement row
+
+labelBalance.addEventListener('click', function () {
+  console.log('ok');
+  [...document.querySelectorAll('.movements__row')].
+    forEach(function (row, i) {
+      if (i % 2 === 0)
+        row.style.backgroundColor = 'orangered';
+      if (i % 3 === 0)
+        row.style.backgroundColor = 'green';
+    });
+})
