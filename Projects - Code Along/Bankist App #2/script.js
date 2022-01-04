@@ -301,4 +301,13 @@ labelBalance.addEventListener('click', function () {
       if (i % 3 === 0)
         row.style.backgroundColor = 'green';
     });
-})
+});
+
+//BIG INT
+console.log(4123146134614171346235724581345235482812);
+console.log(4123146134614171346235724581345235482812n);
+
+//operations with big int
+console.log(10000n + 1001125234613472451357152572161350n);
+
+console.log(11n / 3n);
