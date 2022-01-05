@@ -287,12 +287,13 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
-    currentAccount.movements.push(amount);
-    //Add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
-    // Update UI
-    updateUI(currentAccount);
+    setTimeout(function () {// Add movement
+      currentAccount.movements.push(amount);
+      //Add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
+      // Update UI
+      updateUI(currentAccount);
+    }, 2500);
   }
   inputLoanAmount.value = '';
 });
@@ -417,3 +418,21 @@ console.log('US:   ', new Intl.NumberFormat('en-US').format(num));
 console.log('DE:   ', new Intl.NumberFormat('de-DE').format(num));
 console.log('SY:   ', new Intl.NumberFormat('ar-SY').format(num));
 console.log('BROWSER:   ', new Intl.NumberFormat('ro-RO', options).format(num));
+
+//practice timers and setTimeout
+
+const ingredients = ['olives', 'spinach'];
+const pizzaTimer = setTimeout((arg1, arg2) => console.log(`Here is your pizza with ${arg2} ${arg1} 🍕`), 1000, ...ingredients);
+
+if (ingredients.includes('spinach'))
+  clearTimeout(pizzaTimer);
+
+//practice setTimeout
+setInterval(function () {
+  const time = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric'
+  }).format(new Date());
+  console.log(time);
+}, 1000);
