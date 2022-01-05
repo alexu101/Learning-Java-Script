@@ -197,7 +197,7 @@ const updateUI = function (acc) {
 ///////////////////////////////////////
 // Event handlers
 
-let currentAccount;
+let currentAccount, timer;
 //FAKE ALWAYS LOGGED IN
 currentAccount = account1;
 updateUI(currentAccount);
@@ -216,7 +216,32 @@ const options = {
 const locale = navigator.language;
 */
 
+const buildTimer = function (time) {
+  const min = `${Math.floor(time / 60)}`.padStart(2, 0);
+  const sec = `${time - min * 60}`.padStart(2, 0);
+  return `${min}:${sec}`;
+}
 
+const startLogOuttimer = function () {
+  const tick = function () {
+    const timePassed = buildTimer(time);
+    labelTimer.textContent = timePassed;
+    console.log(labelTimer.textContent);
+    time--;
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started !';
+      containerApp.style.opacity = 0;
+    }
+  }
+
+  let time = 300;
+
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+
+}
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -249,7 +274,14 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
-    // Update UI
+    //start timer
+    startLogOuttimer();
+
+    // Update timer
+    if (timer) clearInterval(timer);
+    timer = startLogOuttimer();
+
+    //update UI
     updateUI(currentAccount);
   }
 });
@@ -278,6 +310,8 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+    clearInterval(timer);
+    timer = startLogOuttimer();
   }
 });
 
@@ -293,6 +327,8 @@ btnLoan.addEventListener('click', function (e) {
       currentAccount.movementsDates.push(new Date().toISOString());
       // Update UI
       updateUI(currentAccount);
+      clearInterval(timer);
+      timer = startLogOuttimer();
     }, 2500);
   }
   inputLoanAmount.value = '';
@@ -328,6 +364,7 @@ btnSort.addEventListener('click', function (e) {
   sorted = !sorted;
 });
 
+/*
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -435,4 +472,4 @@ setInterval(function () {
     second: 'numeric'
   }).format(new Date());
   console.log(time);
-}, 1000);
+}, 1000);*/
