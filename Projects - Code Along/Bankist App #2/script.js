@@ -80,7 +80,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
-const formatMovementDate = function (date) {
+const formatMovementDate = function (date, locale) {
 
   const calcDaysPassed = (date1, date2) => Math.trunc(Math.abs(date1 - date2) / (1000 * 60 * 60 * 24));
 
@@ -98,11 +98,12 @@ const formatMovementDate = function (date) {
   if (daysPassed <= 7)
     return `${daysPassed} days ago`;
 
-  const day = `${date.getDate()}`.padStart(2, 0);
-  const month = `${date.getMonth() + 1}`.padStart(2, 0);
-  const year = date.getFullYear();
-  const displayDate = `${day}/${month}/${year}`;
-  return displayDate;
+  /* const day = `${date.getDate()}`.padStart(2, 0);
+   const month = `${date.getMonth() + 1}`.padStart(2, 0);
+   const year = date.getFullYear();
+   const displayDate = `${day}/${month}/${year}`;*/
+
+  return new Intl.DateTimeFormat(locale).format(date);
 }
 
 const displayMovements = function (acc, sort = false) {
@@ -114,7 +115,7 @@ const displayMovements = function (acc, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(acc.movementsDates[i]);
-    const displayDate = formatMovementDate(date);
+    const displayDate = formatMovementDate(date, acc.locale);
 
 
     const html = `
@@ -181,12 +182,26 @@ const updateUI = function (acc) {
 
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
 
+let currentAccount;
 //FAKE ALWAYS LOGGED IN
 currentAccount = account1;
 updateUI(currentAccount);
 containerApp.style.opacity = 100;
+
+//experimenting API
+/*
+const now = new Date();
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}
+const locale = navigator.language;
+*/
+
 
 
 btnLogin.addEventListener('click', function (e) {
@@ -204,14 +219,16 @@ btnLogin.addEventListener('click', function (e) {
       } `;
     containerApp.style.opacity = 100;
 
-    //create current date and time
     const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min} `;
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    }
+    //const locale = navigator.language;
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now);
 
 
     // Clear input fields
