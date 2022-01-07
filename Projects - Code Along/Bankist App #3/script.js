@@ -74,7 +74,8 @@ message.style.width = '120%';
 console.log(getComputedStyle(message).height);
 message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 
-document.documentElement.style.setProperty('--color-primary', 'orangered');
+/*document.documentElement.style.setProperty('--color-primary', 'orangered');
+
 
 //Attributes
 const logo = document.querySelector('.nav__logo');
@@ -87,12 +88,20 @@ console.log(logo.getAttribute('designer'));
 logo.setAttribute('company', 'Bankist');
 
 console.log(logo.getAttribute('src'));
-/*
+
 //Classes
 logo.classList.add();
 logo.classList.remove();
 logo.classList.toggle();
 logo.classList.contains();
-*/
 
-logo.className = 'jonas'
+
+logo.className = 'jonas'*/
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+})
