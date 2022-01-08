@@ -107,6 +107,43 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
 //Sticky navigation
+/*
+const obsCallback = function (entries, observer) {
+
+  entries.forEach(entry => {
+    console.log(entry);
+  });
+
+};
+
+const obsOptions = {
+  root: null,
+  threshold:[0,0.2]
+};
+
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+observer.observe(section1);
+*/
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (entry.isIntersecting)
+    nav.classList.remove('sticky');
+  else
+    nav.classList.add('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,//te height of the navigation
+});
+headerObserver.observe(header);
 
 // not the optimum solution
 /*
