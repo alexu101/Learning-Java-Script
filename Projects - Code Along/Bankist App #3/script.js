@@ -30,10 +30,48 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+///////////////////////////////////////////////
+//Page navigation 
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+const navLinks = document.querySelector('.nav__links');
+navLinks.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    const section = document.querySelector(id);
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+/*
+document.querySelectorAll('.nav__link')
+  .forEach(function (nav) {
+    nav.addEventListener('click', function (e) {
+      e.preventDefault();
+      const id = this.getAttribute('href');
+      const section = document.querySelector(id);
+      console.log(section);
+      section.scrollIntoView({ behavior: 'smooth' });
+    });
+  })
+  */
+
+
+
 /////////////////////////////////////////////
 ////////////////////////////////////////////
 ///////////////////////////////////////////
-
+/*
 console.log(document.documentElement);
 console.log(document.head);
 console.log(document.body);
@@ -120,7 +158,7 @@ h1.addEventListener('mouseenter', alertH1);
 
 h1.onmouseenter = function (e) {
   alert('bv');
-}; */
+}; 
 
 //Event bubbling
 // rgb(255,255,255)
@@ -144,5 +182,5 @@ document.querySelector('.nav').addEventListener('click', function (e) {
   this.style.backgroundColor = randomColor();
   console.log('LINK', e.target);
 });
-
+*/
 
