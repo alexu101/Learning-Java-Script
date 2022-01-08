@@ -53,18 +53,34 @@ navLinks.addEventListener('click', function (e) {
   }
 });
 
-/*
-document.querySelectorAll('.nav__link')
-  .forEach(function (nav) {
-    nav.addEventListener('click', function (e) {
-      e.preventDefault();
-      const id = this.getAttribute('href');
-      const section = document.querySelector(id);
-      console.log(section);
-      section.scrollIntoView({ behavior: 'smooth' });
-    });
-  })
-  */
+////////////////////////////////////////
+//Tabbed component
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+
+  const clicked = e.target.closest('.operations__tab');
+
+  if (!clicked) return;
+
+  //le lasam jos pe celelalte butoane
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+
+  //il tinem sus doar pe cel apasat
+  clicked.classList.add('operations__tab--active');
+
+  //Activate content area
+  //selectam contentul operatiei apasate
+  const clickedContent = document.querySelector(`.operations__content--${clicked.dataset.tab}`);
+
+  //facem inactive toate contenturile
+  tabsContent.forEach(t => t.classList.remove('operations__content--active'));
+
+  //il facem activ doar pe cel apasat
+  clickedContent.classList.add('operations__content--active');
+});
 
 
 
@@ -183,7 +199,7 @@ document.querySelector('.nav').addEventListener('click', function (e) {
   console.log('LINK', e.target);
 });
 
-*/
+
 const h1 = document.querySelector('h1');
 /*
 //Going downwards : child
@@ -198,7 +214,7 @@ console.log(h1.parentNode);
 console.log(h1.parentElement);
 
 //h1.closest('.header').style.background = 'var(--gradient-secondary)';
-*/
+
 
 //Going sideways : siblings
 
@@ -209,5 +225,5 @@ console.log(h1.previousSibling);
 console.log(h1.nextSibling);
 
 console.log(h1.parentElement.children);
-
+*/
 
