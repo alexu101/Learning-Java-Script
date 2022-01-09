@@ -201,10 +201,22 @@ let curSlide = 0;
 const slides = document.querySelectorAll('.slide');
 const btnLeft = document.querySelector('.slider__btn--left');
 const btnRight = document.querySelector('.slider__btn--right');
-
+const dotContainer = document.querySelector('.dots');
 const slider = document.querySelector('.slider');
 
+const createDots = function () {
+  slides.forEach(function (_, i) {
+    dotContainer.insertAdjacentHTML('beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+
+createDots();
+
 slides.forEach((s, i) => s.style.transform = `translateX(${100 * i}%)`);
+
+
 
 //going to the right slide slide
 
@@ -219,10 +231,23 @@ const moveSlide = function (way, increment) {
   };
 };
 
+const goToSlide = function (slide) {
+  slides.forEach((s, i) => {
+    s.style.transform = `translateX(${100 * (i - slide)}%)`;
+  });
+}
 
 btnRight.addEventListener('click', moveSlide.bind(this, 1, 1));
-
 btnLeft.addEventListener('click', moveSlide.bind(this, 0, -1));
+
+let slide;
+dotContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot'))
+    slide = e.target.dataset.slide;
+  goToSlide(slide);
+})
+
+
 
 // not the optimum solution
 /*
