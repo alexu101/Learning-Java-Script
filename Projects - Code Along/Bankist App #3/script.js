@@ -145,24 +145,56 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 headerObserver.observe(header);
 
 //Revealing elements on scroll
+//selecting all sections
 const allSections = document.querySelectorAll('.section');
-const revealSection = function (entries, observer) {
-  const [entry] = entries;
-  console.log(entry);
 
-  if (!entry.isIntersecting) return;
-  entry.target.classList.remove('section--hidden');
-  observer.unobserve(entry.target);
+//the reveal section function 
+const revealSection = function (entries, observer) {
+  const [entry] = entries;//since we have 1 threshold we have 1 entry
+  //console.log(entry);
+
+  if (!entry.isIntersecting) return;//if we are intersecting
+  entry.target.classList.remove('section--hidden');//show the sectioj
+  observer.unobserve(entry.target);//unobserve the target
 }
 
 const sectionObserver = new IntersectionObserver(revealSection, {
-  root: null,
+  root: null,//the view port
   threshold: 0.20,
 });
-allSections.forEach(function (section) {
-  sectionObserver.observe(section);
-  section.classList.add('section--hidden');
+allSections.forEach(function (section) {//for each function
+  sectionObserver.observe(section);//observe it
+  section.classList.add('section--hidden');//hide its
+});
+
+//Lazy loading images
+const imgTarget = document.querySelectorAll('img[data-src]');
+console.log(imgTarget);
+
+const loadImage = function (entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.src = entry.target.getAttribute('data-src');
+
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+
+  observer.unobserve(entry.target);
+}
+
+const imgObserver = new IntersectionObserver(loadImage, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px'
+});
+imgTarget.forEach(function (img) {
+  imgObserver.observe(img);
+  img.classList.add('lazy-img');
 })
+
 
 // not the optimum solution
 /*
