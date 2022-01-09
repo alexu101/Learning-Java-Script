@@ -164,7 +164,7 @@ const sectionObserver = new IntersectionObserver(revealSection, {
 });
 allSections.forEach(function (section) {//for each function
   sectionObserver.observe(section);//observe it
-  section.classList.add('section--hidden');//hide its
+  // section.classList.add('section--hidden');//hide its
 });
 
 //Lazy loading images
@@ -193,8 +193,36 @@ const imgObserver = new IntersectionObserver(loadImage, {
 imgTarget.forEach(function (img) {
   imgObserver.observe(img);
   img.classList.add('lazy-img');
-})
+});
 
+//Slider component
+let curSlide = 0;
+
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+
+const slider = document.querySelector('.slider');
+
+slides.forEach((s, i) => s.style.transform = `translateX(${100 * i}%)`);
+
+//going to the right slide slide
+
+const moveSlide = function (way, increment) {
+
+  const condition = (way === 1) ? (curSlide < slides.length - 1) : (curSlide > 0);
+  if (condition) {
+    curSlide += increment;
+    slides.forEach((s, i) => {
+      s.style.transform = `translateX(${100 * (i - curSlide)}%)`;
+    });
+  };
+};
+
+
+btnRight.addEventListener('click', moveSlide.bind(this, 1, 1));
+
+btnLeft.addEventListener('click', moveSlide.bind(this, 0, -1));
 
 // not the optimum solution
 /*
