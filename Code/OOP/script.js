@@ -53,3 +53,49 @@ console.log(jonas.hasOwnProperty('firstName'));
 
 console.log(jonas.__proto__);
 console.log(jonas.__proto__.__proto__);
+console.log(jonas.__proto__.__proto__.__proto__);
+
+console.log(Person.prototype.constructor.__proto__);
+
+const arr = [3, 6, 4, 5, 6, , 3];
+console.log(arr.__proto__ === Array.prototype);
+
+console.log(arr.__proto__.__proto__);
+
+Array.prototype.unique = function () {
+    return [...new Set(this)]
+};
+
+console.log(arr.unique());
+
+const h1 = document.querySelector('h1');
+console.dir(x => x + 1);
+
+
+/*
+//CODING CHALLENGE 1
+
+const Car = function (make, speed) {
+    this.make = make;
+    this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+    this.speed += 10;
+    console.log(`Now your ${this.make} runs with a speed of ${this.speed}km/h`);
+};
+
+Car.prototype.brake = function () {
+    this.speed -= 5;
+    console.log(`Now your ${this.make} runs with a speed of ${this.speed}km/h`);
+};
+
+const car1 = new Car('BMW', 120);
+const car2 = new Car('Mercedes', 95);
+
+car1.brake();
+car1.brake();
+car2.accelerate();
+car2.brake();
+car2.brake();
+*/
