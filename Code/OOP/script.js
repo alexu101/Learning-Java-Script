@@ -1,17 +1,13 @@
 'use strict';
 
+/*
 const Person = function (firstName, birthYear) {
 
     //Instance properties
     this.firstName = firstName;
     this.birthYear = birthYear;
 
-    /*  Never do this
-      this.calcAge = function()
-      {
-          console.log(2037-this.birthYear);
-      }
-  */
+  
 }
 
 const jonas = new Person('Jonas', 1991);
@@ -24,7 +20,7 @@ console.log(jonas);
 2. function is called, this = {}
 3. {} inked to prototype
 4. function automatically return {}
-*/
+
 
 const matilda = new Person('Matilda', 1992);
 const jack = new Person('Jack', 1993);
@@ -99,3 +95,34 @@ car2.accelerate();
 car2.brake();
 car2.brake();
 */
+
+//class expression
+
+//const PersonCl = class {}
+
+//class declaration
+class Person {
+    constructor(firstName, birthYear) {
+        this.firstName = firstName;
+        this.birthYear = birthYear;
+    }
+
+    //Methods will be added to .prototype property 
+    calcAge() {
+        console.log(2037 - this.birthYear);
+    }
+}
+
+const jessica = new Person('Jessica', 1999);
+console.log(jessica);
+jessica.calcAge();
+
+Person.prototype.greet = function () {
+    console.log(`Hey ${this.firstName}`);
+};
+
+jessica.greet();
+
+//1. Classes are NOT hoisted
+//2. Classes are first-class citizes
+//3. Classes are executed in strict mode
