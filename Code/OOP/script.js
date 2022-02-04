@@ -228,3 +228,83 @@ ford.accelerate();
 console.log(ford.speedUS);
 ford.speedUS = 100;
 ford.accelerate();
+
+//////
+//Inheritance with es6 classes
+
+class Student extends Person {
+    constructor(fullName, birthYear, course) {
+        //Always needs to happen first!
+        super(fullName, birthYear);
+        this.course = course;
+    }
+
+    introduce() {
+        console.log(`My name is ${firstName}`);
+    }
+}
+
+const martha = new Student('Marhta Jones', 2012);
+martha.calcAge();
+
+
+//public/private fields/methods
+
+class Account {
+    //public fields(instances)
+    locale = navigator.language;
+
+    //private fields(instances)
+    #movements = [];
+    #pin;
+
+
+    constructor(owner, currency, pin) {
+        this.owner = owner;
+        this.currency = currency;
+        this.#pin = pin;
+
+        //protected property
+        // this._movements = [];
+        //this.locale = navigator.language;
+
+        console.log(`Thanks for opening an account, ${owner}!`);
+    }
+
+    //Public methods
+
+    getMovements() {
+        return this.#movements;
+    }
+
+    deposit(val) {
+        this.#movements.push(val);
+    }
+
+    withdrawal(val) {
+        this.deposit(-val);
+    }
+
+    #approveLoan(val) {
+        return true;
+    }
+
+    requestLoan(val) {
+        if (this.#approveLoan(val)) {
+            this.deposit(val);
+            console.log(`Loan approved`);
+        }
+    }
+
+    //Private methods
+}
+
+
+const acc1 = new Account('Jonas', 'EUR', 1111);
+console.log(acc1);
+
+acc1.deposit(110);
+acc1.withdrawal(20);
+acc1.requestLoan(1000);
+
+console.log(acc1.movements);
